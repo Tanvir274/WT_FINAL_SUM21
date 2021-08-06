@@ -14,7 +14,7 @@ $c=getCatagory($id);
 		<tr>
 		    
 			<td><h4 class="text">Name</h4> </td>
-			<td><input type="hidden" value="<?phpecho $id ?>" name="id"></td>
+			<td><input type="hidden" value="<?php echo $id ?>" name="id"></td>
 			<td><input type="text" name="name" value=<?php echo $c["name"];?> ></td>
 			
 		</tr>	

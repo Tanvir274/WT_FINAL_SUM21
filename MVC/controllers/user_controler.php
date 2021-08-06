@@ -143,8 +143,10 @@ include 'models/db_config.php';
 	}
 	function authenticationUser($uname,$pass)
 	{
-		$query="insert * from user where username='$uname' and password='$pass' ";
+		$query="select * from user where username='$uname' and password='$pass' ";
+		
 		$rs=get($query);
+		
 		if(count($rs)>0)
 		{
 			return true;

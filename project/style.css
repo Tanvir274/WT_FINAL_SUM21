@@ -1,0 +1,17 @@
+body 
+{
+  background-image: url("blood-logo.jpg"); 
+}
+table, th, td 
+{
+  width: 25%;
+}
+th {
+  height: 50px;
+}
+
+table.center 
+{
+  margin-left: auto; 
+  margin-right: auto;
+}
