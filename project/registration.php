@@ -2,8 +2,12 @@
 include 'controllers/user_controller.php'; 
 include 'uper_layout.php'; 
 ?>
-<script src=""></script>
+
+<h1 align="center"><b> WELCOME </b> </h1>
+<h3 align="center"><?php echo $db_err ?></h3>
+<script src="controllers/js_user.js"></script>
 <form action="" onsubmit="return validate()" method="post">
+
 	<table class="center" >
 	
 		<tr>
@@ -14,12 +18,12 @@ include 'uper_layout.php';
 		</tr>
 		<tr>
 			<td><b>Username:</b> </td>
-			<td><input type="text" id="username" name="username" value="<?php echo $uname;?>" placeholder="Username"></td>
+			<td><input type="text" id="username" name="username" value="<?php echo $uname; ?>" placeholder="Username"></td>
 			<td><span id="err_uname"><?php echo $err_uname;?></span></td>
 		</tr>
 		<tr>
 			<td><b>Password: </b></td>
-			<td><input type="password"  name="password" value="<?php echo $pass ?>" placeholder="Password"></td>
+			<td><input type="password" id="pass" name="password" value="<?php echo $pass; ?>" placeholder="Password"></td>
 			<td><span id="err_pass"><?php echo $err_pass;?></span></td>
 		</tr>
 		<tr>
@@ -34,8 +38,8 @@ include 'uper_layout.php';
 		</tr>
 		<tr>
 			<td><b>Phone Number:</b> </td>
-			<td><input type="text" id="digit" name="digit" value="<?php echo $phone_number;?>" placeholder="Phone Number"></td>
-			<td><span id="err_digit"><?php echo $err_phone_number;?></span></td>
+			<td><input type="text" id="digit" name="digit" value="<?php echo $digit;?>" placeholder="Phone Number"></td>
+			<td><span id="err_digit"><?php echo $err_digit;?></span></td>
 			
 		</tr>
 		<tr>
@@ -48,7 +52,7 @@ include 'uper_layout.php';
 		<tr>
 			<td><b>Birth Date: </b> </td>
 			<td>
-				<select name="day">
+				<select id="day" name="day">
 					<option selected disabled>Day</option>
 					<?php
 						foreach($days as $i)
@@ -60,7 +64,7 @@ include 'uper_layout.php';
 						}
 					?>
 				</select> 
-				<select name="month">
+				<select id="month" name="month">
 					<option selected disabled>Month</option>
 					<?php
 						foreach($months as $i)
@@ -72,7 +76,7 @@ include 'uper_layout.php';
 						}
 					?>
 				</select>
-				<select name="year">
+				<select id="year" name="year">
 					<option selected disabled>Year</option>
 					<?php
 						foreach($years as $i)
@@ -86,15 +90,15 @@ include 'uper_layout.php';
 				</select>
 			</td>
 			<td>
-			<span><?php echo $err_day;?></span>
-			<span><?php echo $err_month;?></span>
-			<span><?php echo $err_year;?></span>
+			<span id="err_day"><?php echo $err_day;?></span>
+			<span id="err_month"><?php echo $err_month;?></span>
+			<span id="err_year"><?php echo $err_year;?></span>
 			</td>
 		</tr>
 		<tr>
 			<td><b>Blood Group: </b> </td>
 			<td>
-				<select name="group">
+				<select id="group" name="group">
 					<option selected disabled>Blood Group</option>
 					<?php
 						foreach($groups as $i)
@@ -107,21 +111,24 @@ include 'uper_layout.php';
 					?>
 				</select>
 			</td>
-			<td><span><?php echo $err_group;?></span></td>
+			<td><span id="err_group"><?php echo $err_group;?></span></td>
 		</tr>	
 
 		<tr>
 			<td><b>Gender: <b></td>
-			<td><input type="radio" value="Male" <?php if($gender == "Male") echo "checked";?> name="gender"> Male <input <?php if($gender == "Female") echo "checked";?> name="gender"  value="Female" type="radio"> Female</td>
-			<td><span><?php echo $err_gender;?></span></td>
+			<td><input type="radio" id="male" value="Male" <?php if($gender == "Male") echo "checked";?> name="gender"> Male <input id="female" <?php if($gender == "Female") echo "checked";?> name="gender"  value="Female" type="radio"> Female</td>
+			<td><span id="err_gender"><?php echo $err_gender;?></span></td>
 		</tr>
 		
 		
 		
 		
 		<tr>
-			<td align="middle" colspan="2"><input type="submit" value="Register"></td>
+			<td align="middle" colspan="2"><input type="submit" name="sign_up" value="Register"></td>
 		</tr>
+		<tr>
+	      <td align="middle" colspan="2"><a  href="home_page.php"><h2>Home Page</h2></td>
+	    </tr>
 		
 	</table>
  </form>

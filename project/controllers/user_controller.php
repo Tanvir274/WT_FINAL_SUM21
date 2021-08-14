@@ -1,4 +1,7 @@
 <?php
+session_start();
+include 'models/db_config.php';
+
 $name="";
 $err_name="";
 $uname="";
@@ -9,8 +12,8 @@ $cpass="";
 $cerr_pass="";
 $mail="";
 $err_mail="";
-$phone_number="";
-$err_phone_number="";
+$digit="";
+$err_digit="";
 $add="";
 $err_add="";
 $day="";
@@ -24,30 +27,25 @@ $err_group="";
 $gender="";
 $err_gender="";
 
+$db_err="";
+$err_reset="";
+
+$profile_id="";
+
 
 
 
 
 $hasError=false;
 
+
 $days =array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31);
 $months=array(1,2,3,4,5,6,7,8,9,10,11,12);
 $years=array(1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011);
 $groups=array("A+","O+","B+","AB+","A-","O-","B-","AB-");
-function hobbyExist($hobby)
-{
-	global $hobbies;
-	foreach($hobbies as $h)
-	{
-		if($h == $hobby)
-		{
-			return true;
-		}
-	}
-	return false;
-}
 
-if($_SERVER["REQUEST_METHOD"] == "POST")
+
+if(isset($_POST["sign_up"]))
 {
 	// Name
 	if(empty($_POST["name"]))
@@ -218,7 +216,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	//Phone Number
 	if(empty($_POST["digit"])) 
 	{
-		$err_phone_number="Phone Number Required";
+		$err_digit="Phone Number Required";
 		$hasError = true;
 	}
 	else if(!empty($_POST["digit"]))
@@ -230,14 +228,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 		{
 			if($str[$i]<='0' && $str[$i]>='9')
 			{
-				$err_phone_number="Phone number only accept numeric value";
+				$err_digit="Phone number only accept numeric value";
 				$hasError=true;
 			}
 		}
 	}
 	else
 	{
-		$phone_number=$_POST["digit"];
+		$digit=$_POST["digit"];
 	}
 	
 	// Street Address
@@ -316,31 +314,216 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	
 	
 	
-	
-	
-	
-	
-	
 	if(!$hasError)
 	{
-		echo $name."<br>";
-		echo $_POST["username"]."<br>";
-		echo $_POST["password"]."<br>";
-		echo $_POST["confirm_password"]."<br>";
-		echo $_POST["email"]."<br>";
-		echo $_POST["digit"]."<br>";
-		echo $_POST["address"]."<br>";
-		echo $_POST["address1"]."<br>";
-		echo $_POST["address2"]."<br>";
-		echo $_POST["address3"]."<br>";
-		echo $_POST["day"]."<br>";
-		echo $_POST["month"]."<br>";
-		echo $_POST["year"]."<br>";
-		echo $_POST["gender"]."<br>";
-		echo $_POST["group"];
+		echo $_POST["username"].$_POST["password"].$_POST["email"].$_POST["digit"];
+		$rs=insert_user($name,$_POST["username"],$_POST["password"],$_POST["email"],$_POST["digit"],$add,$day,$month,$year,$group,$gender);
+		if($rs===true)
+		{
+			header("Location:login.php");
+		}
+		$db_err= $rs;
 			
 	}
 	
 	
+}
+else if(isset($_POST["login"]))
+{
+	// username
+	if(empty($_POST["username"])) 
+	{
+		$err_uname="Username Required";
+		$hasError = true;
+	}
+	
+	else
+	{
+		$uname=$_POST["username"];
+	}
+	
+	//password
+	if(empty($_POST["password"])) 
+	{
+		$err_pass="Password Required";
+		$hasError = true;
+	}
+	
+	else
+	{
+		$pass=$_POST["password"];
+	}
+	
+	if(!$hasError)
+	{
+		$_SESSION["uname"] = $_POST["username"];
+		$_SESSION["pass"] =  $_POST["password"];
+		
+	   if(authenticationUser($_POST["username"],$_POST["password"]))
+	   {
+		 header("Location:dashboard.php");
+	   }
+	   $db_err= "Username_Password_Invalid" ;
+	}
+	
+}
+else if(isset($_POST["reset"])) // Reset password
+{
+	// username
+	if(empty($_POST["username"])) 
+	{
+		$err_uname="Username Required";
+		$hasError = true;
+	}
+	
+	else
+	{
+		$uname=$_POST["username"];
+	}
+	//mail
+/*	if(empty($_POST["email"])) 
+	{
+		$err_mail="Email Required";
+		$hasError = true;
+	}
+	else
+	{
+		$mail=$_POST["email"];
+	} 
+	*/
+	//password
+	if(empty($_POST["password"])) 
+	{
+		$err_pass="Password Required";
+		$hasError = true;
+	}
+	else if(strlen($_POST["password"]) <=4)
+	{
+		$err_pass="password must contain at least 5 characters";
+		$hasError = true;
+	}
+	else if(strlen($_POST["password"])>=5)
+	{
+		
+		$c=0;
+		$d=0;
+		$e=0;
+		$f=0;
+		$l=strlen($_POST["password"]);
+		$str=$_POST["password"];
+		for($i=0;$i<$l;$i++)
+		{
+			if($str[$i]==' ')
+			{
+				$err_pass="Password space is not allowed";
+		        $hasError = true;
+				$i=$l;
+				
+			}
+			if($str[$i]>='A' && $str[$i]<='Z' )
+			{
+				$c=1;
+			}
+			if($str[$i]>='a' && $str[$i]<='z' )
+			{
+				$d=1;
+			}
+			if($str[$i]=='?' || $str[$i]=='#' )
+			{
+				$e=1;
+			}
+			if($str[$i]>='0' && $str[$i]<='9' )
+			{
+				$f=1;
+			}
+			
+		}
+	}
+	else if($c==0 || $d==0 ||$e==0 ||$f==0)
+	{
+		$err_pass="Password  is not Right";
+		$hasError = true;
+	}
+	
+	else
+	{
+		$pass=$_POST["password"];
+	}
+	
+	if(!$hasError)
+	{
+       $users=getAlluser();	
+	   foreach($users as $c)
+	   {
+		   if($c["username"]==$uname)
+		   {
+			   $profile_id=$c["id"];
+		   }
+	   }
+	   
+	   if(authenticationReset($uname))
+	   { 
+		 $rs=request_reset($profile_id,$_POST["password"]);
+	       if($rs===true)
+	       {
+	 	    header("Location:login.php");
+	       }
+	      $err_reset=$rs;
+		  	  
+	   }
+	   else
+	   {
+	    $db_err= "Username Invalid" ;
+	   }
+	   
+	   
+	}
+	
+}
+
+
+function insert_user($name,$uname,$pass,$mail,$digit,$add,$day,$month,$year,$group,$gender)
+{
+	$query= "insert into user values(NULL,'$name','$uname','$pass','$mail','$digit','$add','$day','$month','$year','$group','$gender')";
+	return execute($query);
+} 
+
+function authenticationUser($uname,$pass)
+{
+	$query="select * from user where username='$uname' and password='$pass' ";
+	
+	$rs=get($query);
+	echo $rs;
+	
+	if(count($rs)>0)
+	{
+		return true;
+	}
+	return false;
+}
+function getAlluser()
+{
+	$query="select * from user";
+	$rs=get($query);
+	return $rs;
+}
+
+
+function authenticationReset($uname)
+{
+	$query="select * from user where username='$uname' ";
+	
+	$rs=get($query);
+	
+	if(count($rs)>0)
+	{
+		return true;
+	}
+	return false;
+}
+function request_reset($id,$pass)
+{
+	$query ="update user set password='$pass' where id= $id";
+	return execute($query);
 }
 ?>

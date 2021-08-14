@@ -3,7 +3,7 @@
 $db_server="localhost";
 $db_uname="root";
 $db_pass="";
-$db_name="Blood_Donation_Project";
+$db_name="blood_donation_project";
 
 
 
