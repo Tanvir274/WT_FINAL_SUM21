@@ -43,10 +43,11 @@ include 'controllers/user_search.php';
 	  <td><a  href="available_donor.php">Available Donor</td>
 	  <td><a  href="profile.php">Profile</td>
 	  <td><a  href="rate.php">Rate Blood Bank</td>
+	  <td><a  href="feedback.php">Send Feedback</td>
 	  
    </tr>
    <tr>
-		<td align="middle" colspan="3"><a  href="logout.php"><h2>logOut</h2></td>
+		<td align="middle" colspan="5"><a  href="logout.php"><h2>logOut</h2></td>
 	</tr>
    
 </table>

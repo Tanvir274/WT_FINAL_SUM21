@@ -14,6 +14,7 @@ $rs="";
 $hasError=false;
 
 $rating=array("*","**","***","****","*****");
+
 if(isset($_POST["submit"]))
 {
 	if(empty($_POST["message"]))
@@ -93,6 +94,31 @@ else if (isset($_POST["select"]))
 	
 	
 }
+if(isset($_POST["feedback"]))
+{
+	if(empty($_POST["message"]))
+	{
+		$err_message="Message Required";
+		$hasError = true;
+	}
+	else
+	{
+		$message=$_POST["message"];
+	}
+
+	if(!$hasError)
+	{
+	
+	 
+	 $rs=insert_feedback($_SESSION["uname"],$message);
+	 if($rs===true)
+	 {
+	 	header("Location:dashboard.php");
+	 }
+	 $err_message=$rs;
+	  
+	}	
+}
 
 function getAlldonor()
 {
@@ -116,6 +142,11 @@ function insert_request($donorId,$uname)
 function insert_rating($uname,$rate)
 {
 	$query= "insert into user_rate_blood_bank values(NULL,'$uname','$rate')";
+	return execute($query);
+}
+function insert_feedback($uname,$message)
+{
+	$query= "insert into feedback values(NULL,'$uname','$message')";
 	return execute($query);
 }
 
