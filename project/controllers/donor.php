@@ -8,8 +8,12 @@ $err_uname="";
 $pass="";
 $err_pass="";
 $db_err="";
+$rate="";
+$err_rate="";
 $rs="";
 $hasError=false;
+
+$rating=array("*","**","***","****","*****");
 if(isset($_POST["submit"]))
 {
 	if(empty($_POST["message"]))
@@ -24,14 +28,15 @@ if(isset($_POST["submit"]))
 
 	if(!$hasError)
 	{
-		
+	
 	 
-	 $rs=message_donor($message,$_POST["id"]);
+	 $rs=insert_message($_POST["id"],$_SESSION["uname"],$message);
 	 if($rs===true)
 	 {
 	 	header("Location:available_donor.php");
 	 }
 	 $err_message=$rs;
+	 
 	 
 	 
 	}
@@ -42,8 +47,9 @@ if(isset($_POST["submit"]))
 else if(isset($_POST["request"]))
 {
 	$uname=$_SESSION["uname"];
-	   
-	$rs=request_donor($uname,$_POST["id"]);
+	
+	
+	$rs=insert_request($_POST["id"],$uname);
 	if($rs===true)
 	{
 	 header("Location:available_donor.php");
@@ -58,6 +64,35 @@ else if(isset($_POST["log_out"]))
 	session_destroy();
 	header("Location:home_page.php");
 }
+else if (isset($_POST["select"]))
+{
+	if(!isset($_POST["rate"]))
+	{
+		$err_rate = "Select rating";
+		$hasError = true;
+	}
+	else
+	{
+		$rate = $_POST["rate"];
+	}
+	
+	if(!$hasError)
+	{
+	
+	 
+	 $rs=insert_rating($_SESSION["uname"],$rate);
+	 if($rs===true)
+	 {
+	 	header("Location:dashboard.php");
+	 }
+	 $err_rate=$rs;
+	 
+	 
+	 
+	}
+	
+	
+}
 
 function getAlldonor()
 {
@@ -65,15 +100,22 @@ function getAlldonor()
 	$rs=get($query);
 	return $rs;
 }
-function message_donor($message,$id)
+
+
+function insert_message($donorId,$uname,$message)
 {
-	$query ="update donor set message='$message' where id = $id";
+	$query= "insert into donor_message values(NULL,'$donorId','$uname','$message')";
+	return execute($query);
+} 
+
+function insert_request($donorId,$uname)
+{
+	$query= "insert into donor_request values(NULL,'$donorId','$uname')";
 	return execute($query);
 }
-
-function request_donor($uname,$id)
+function insert_rating($uname,$rate)
 {
-	$query ="update donor set request='$uname' where id = $id";
+	$query= "insert into user_rate_blood_bank values(NULL,'$uname','$rate')";
 	return execute($query);
 }
 

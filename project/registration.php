@@ -3,10 +3,15 @@ include 'controllers/user_controller.php';
 include 'uper_layout.php'; 
 ?>
 
+
+<script src="JS/sign.js"></script>
+<script src="JS/regis.js"></script>
+
+
 <h1 align="center"><b> WELCOME </b> </h1>
 <h3 align="center"><?php echo $db_err ?></h3>
-<script src="controllers/js_user.js"></script>
-<form action="" onsubmit="return validate()" method="post">
+
+<form action="" onsubmit="return validation()" method="post">
 
 	<table class="center" >
 	
@@ -18,7 +23,7 @@ include 'uper_layout.php';
 		</tr>
 		<tr>
 			<td><b>Username:</b> </td>
-			<td><input type="text" id="username" name="username" value="<?php echo $uname; ?>" placeholder="Username"></td>
+			<td><input type="text" onfocusout="checkUser(this)" id="username" name="username" value="<?php echo $uname; ?>" placeholder="Username"></td>
 			<td><span id="err_uname"><?php echo $err_uname;?></span></td>
 		</tr>
 		<tr>
@@ -33,12 +38,12 @@ include 'uper_layout.php';
 		</tr>
 		<tr>
 		     <td><b>Email:</b></td>
-			 <td><input type="text" id="email" name="email" value="<?php echo $mail;?>" placeholder="Email"></td>
+			 <td><input type="text" onfocusout="checkMail(this)" id="email" name="email" value="<?php echo $mail;?>" placeholder="Email"></td>
 			 <td><span id="err_mail"><?php echo $err_mail;?></span></td>
 		</tr>
 		<tr>
 			<td><b>Phone Number:</b> </td>
-			<td><input type="text" id="digit" name="digit" value="<?php echo $digit;?>" placeholder="Phone Number"></td>
+			<td><input type="text" onfocusout="checkPhone(this)" id="digit" name="digit" value="<?php echo $digit;?>" placeholder="Phone Number"></td>
 			<td><span id="err_digit"><?php echo $err_digit;?></span></td>
 			
 		</tr>
@@ -90,8 +95,8 @@ include 'uper_layout.php';
 				</select>
 			</td>
 			<td>
-			<span id="err_day"><?php echo $err_day;?></span>
-			<span id="err_month"><?php echo $err_month;?></span>
+			<span id="err_day"><?php echo $err_day;?></span><br>
+			<span id="err_month"><?php echo $err_month;?></span><br>
 			<span id="err_year"><?php echo $err_year;?></span>
 			</td>
 		</tr>

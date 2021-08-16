@@ -32,7 +32,7 @@ $catagories=getAlldonor();
 		       echo"<td>".$i."</td>";
 			   echo"<td>".$c["name"]."</td>";
 			   echo"<td>".$c["username"]."</td>";
-			   echo"<td>".$c["blood group"]."</td>";
+			   echo"<td>".$c["blood_group"]."</td>";
 			   echo'<td><a href="message_donor.php?id='.$c["id"].'">Message</a></td>';
 			   echo'<td><a href="request_donor.php?id='.$c["id"].'">Request</a></td>';
 			   

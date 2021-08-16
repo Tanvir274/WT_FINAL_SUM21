@@ -363,7 +363,11 @@ else if(isset($_POST["login"]))
 	   {
 		 header("Location:dashboard.php");
 	   }
-	   $db_err= "Username_Password_Invalid" ;
+	   else
+	   {
+		   header("Location:user_invalid.php");
+	   }
+	   //$db_err= "Username_Password_Invalid" ;
 	}
 	
 }
@@ -526,4 +530,37 @@ function request_reset($id,$pass)
 	$query ="update user set password='$pass' where id= $id";
 	return execute($query);
 }
+function checkUsername($uname)
+{
+		$query = "select name from user where username='$uname'";
+		$rs = get($query);
+		if(count($rs) > 0)
+		{
+			return true;
+		}
+		else return false;
+}
+
+function checkMail($mail)
+{
+		$query = "select name from user where email='$mail'";
+		$rs = get($query);
+		if(count($rs) > 0)
+		{
+			return true;
+		}
+		else return false;
+}
+function checkPhone($digit)
+{
+		$query = "select name from user where phone_number='$digit'";
+		$rs = get($query);
+		if(count($rs) > 0)
+		{
+			return true;
+		}
+		else return false;
+}
+
+
 ?>

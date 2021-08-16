@@ -3,25 +3,25 @@ include 'controllers/user_controller.php';
 include 'uper_layout.php';  
 ?>
 
-
+<script src="JS/log.js"></script>
 
 <h1 align="center"><b>  Log In </b> </h1>
 <h3 align="center"><?php echo $db_err ?></h3>
-<form action="" method="post">
+<form action="" onsubmit="return validate()" method="post">
 <table class="center">
 
 	
 	<tr>
         <td><h4 class="text">Username</h4> </td>
-		<td><input type="text" name="username" value="<?php echo $uname;?>" placeholder="Username"></td>
-		<td><span><?php echo $err_uname;?></span></td>
+		<td><input type="text" id="username" name="username" value="<?php echo $uname;?>" placeholder="Username"></td>
+		<td><span id="err_uname"><?php echo $err_uname;?></span></td>
 	</tr>	
 	
 	
 	<tr>
 		<td><h4 class="text">Password</h4></td>
-		<td><input type="password" name="password" value="<?php echo $pass ?>" placeholder="Password"></td>
-		<td><span><?php echo $err_pass;?></span></td>
+		<td><input type="password" id="password" name="password" value="<?php echo $pass ?>" placeholder="Password"></td>
+		<td><span id="err_pass"><?php echo $err_pass;?></span></td>
 	</tr>
 	
     <tr>
